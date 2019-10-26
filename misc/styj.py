@@ -114,5 +114,5 @@ if __name__ == '__main__':
     df3 = df3.loc[~df3['gpmc'].str.contains('\*')] # 去掉改名为*ST
     df3 = df3.loc[~df3['gpmc'].str.contains('ST')] # 去掉改名为ST，由于前面是按年份分析的名称
     df3.to_csv('2019st1.csv', index=False, encoding='GBK')
-    df4 = df1.loc[df1['gpdm'].isin(df3['gpdm'].to_list())]  # 
+    df4 = df1.loc[df1['gpdm'].isin(df3['gpdm'].to_list())]  # 选取正常被ST，而非*ST变ST的
     df4.to_csv('2019st2.csv', index=False, encoding='GBK')
