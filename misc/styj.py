@@ -95,9 +95,9 @@ if __name__ == '__main__':
 
     df = pd.concat([pd.read_csv(f'gn{year}.csv', parse_dates=True, infer_datetime_format=True,
                    encoding='GBK') for year in range(2013,2020)])
-    df = df.sort_values(by=['date'])
-    #    df = df.drop_duplicates(subset=['gpdm', 'gpmc'], keep='first')  
-    # 上句不能用，如果出现反复改名或反复ST、*ST，会跌到中间过程
+    df = df.sort_values(by=['gpdm', 'date'])  # 按股票、日期排序
+    df = df.loc[(df['gpmc'] != df['gpmc'].shift(1))]  # 保留前后不一致的，即改名的
+
     df1 = df.loc[df['gpmc'].str.contains('ST') &
                  df['date'].map(lambda x: str(x)).str.contains('2019')]  # 2019年改名为ST
     df1 = df1.loc[~df1['gpmc'].str.contains('\*')]  # 去掉改名为*ST
