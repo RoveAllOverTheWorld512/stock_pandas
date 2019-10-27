@@ -12,11 +12,8 @@ ST股票研究
 """
 
 import os
-import sys
 import re
-import datetime
 import pandas as pd
-import dateutil.parser
 import xlrd
 from pypinyin import lazy_pinyin, Style, load_single_dict
 
@@ -99,7 +96,7 @@ if __name__ == '__main__':
     df = df.loc[(df['gpmc'] != df['gpmc'].shift(1))]  # 保留前后不一致的，即改名的
 
     df1 = df.loc[df['gpmc'].str.contains('ST') &
-                 df['date'].map(lambda x: str(x)).str.contains('2019')]  # 2019年改名为ST
+                 df['date'].map(lambda x: str(x)).str.contains('2018')]  # 2019年改名为ST
     df1 = df1.loc[~df1['gpmc'].str.contains('\*')]  # 去掉改名为*ST
 #    df1.to_csv('tmp.csv', index=False, encoding='GBK')
 
@@ -113,6 +110,6 @@ if __name__ == '__main__':
     df3 = df3.drop_duplicates(subset=['gpdm'], keep='last')  # 保留改名为ST之前最后的名称
     df3 = df3.loc[~df3['gpmc'].str.contains('\*')] # 去掉改名为*ST
     df3 = df3.loc[~df3['gpmc'].str.contains('ST')] # 去掉改名为ST，由于前面是按年份分析的名称
-    df3.to_csv('2019st1.csv', index=False, encoding='GBK')
+#    df3.to_csv('2019st1.csv', index=False, encoding='GBK')
     df4 = df1.loc[df1['gpdm'].isin(df3['gpdm'].to_list())]  # 选取正常被ST，而非*ST变ST的
-    df4.to_csv('2019st2.csv', index=False, encoding='GBK')
+    df4.to_csv('2018st2.csv', index=False, encoding='GBK')
